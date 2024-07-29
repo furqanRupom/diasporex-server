@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import router from "./app/routes/routes";
+import { gloabalErrorHandler } from "./app/middlewares/globalErrorHandler";
 
 dotenv.config();
 const app: Application = express();
@@ -22,6 +23,7 @@ app.get("/", async (req, res) => {
 
 app.use("/api/v1", router);
 
+
 app.use((req: Request, res: Response, next: NextFunction) => {
  res.status(404).json({
   success: false,
@@ -35,5 +37,5 @@ app.use((req: Request, res: Response, next: NextFunction) => {
  });
  next();
 });
-
+app.use(gloabalErrorHandler.handlers)
 export default app;
