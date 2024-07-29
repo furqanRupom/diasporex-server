@@ -1,4 +1,5 @@
 import express from "express";
+import { authRoutes } from "../modules/auth/auth.routes";
 
 
 const router = express.Router();
@@ -6,15 +7,14 @@ const router = express.Router();
 
 const moduleRoutes = [
     {
-        path: "/",
-        route: ""
+        path: "/auth",
+        route: authRoutes
     },
-
 
 ]
 
 
 
-// moduleRoutes.forEach(({ path, route }) => router.use(path, route))
+moduleRoutes.forEach(({ path, route }) => router.use(path, route))
 
 export default router;
