@@ -1,11 +1,11 @@
-import { authServices } from "./auth.services";
 import BaseController from "../../shared/baseController";
 import { Request, Response } from "express";
 import httpStatus from "http-status";
+import { AuthService } from "./auth.services";
 
 class Controller extends BaseController {
  registerUser = this.catchAsync(async (req: Request, res: Response) => {
-  const result = await authServices.userRegistrationIntoDB(req.body);
+  const result = await AuthService.registerUser(req.body);
   this.sendResponse(res, {
    success: true,
    statusCode: httpStatus.CREATED,
@@ -15,7 +15,7 @@ class Controller extends BaseController {
  });
 
  loginUser = this.catchAsync(async (req: Request, res: Response) => {
-  const result = await authServices.userLogin(req.body);
+  const result = await AuthService.loginUser(req.body);
   this.sendResponse(res, {
    success: true,
    statusCode: httpStatus.OK,
