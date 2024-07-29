@@ -3,6 +3,7 @@ import { ZodError } from 'zod';
 import { IErrorSources } from '../interface/Error';
 import { ErrorHandler } from '../errors/Errors';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { Prisma } from '@prisma/client';
 
 class GlobalErrorHandler {
     handlers(error: any, req: Request, res: Response, next: NextFunction) {
@@ -27,7 +28,7 @@ class GlobalErrorHandler {
                 message = simplifiedError.message;
                 errorSources = simplifiedError.errorSources;
             }
-        } else if (error?.name === 'ValidationError') {
+        } else if (error instanceof Prisma.PrismaClientValidationError) {
             const simplifiedError = ErrorHandler.handleValidationError(error);
             statusCode = simplifiedError.statusCode;
             message = simplifiedError.message;
