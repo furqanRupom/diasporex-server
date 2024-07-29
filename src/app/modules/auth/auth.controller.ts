@@ -1,34 +1,28 @@
+import BaseController from "../../shared/baseController";
+import { Request, Response } from "express";
 import httpStatus from "http-status";
-import catchAsync from "../../shared/catchAsync"
-import sendResponse from "../../shared/sendResponse";
-import { authServices } from "./auth.services"
+import { AuthService } from "./auth.services";
 
-const userRegistration = catchAsync(async(req,res,next) => {
-    const result = await authServices.userRegistrationIntoDB(req.body);
-    sendResponse(res,{
-        success:true,
-        statusCode:httpStatus.CREATED,
-        message:"User Registered successfully",
-        data:result
+class Controller extends BaseController {
+ registerUser = this.catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthService.registerUser(req.body);
+  this.sendResponse(res, {
+   success: true,
+   statusCode: httpStatus.CREATED,
+   message: "User registered successfully",
+   data: result,
+  });
+ });
 
-    })
-})
-
-const userLogin = catchAsync(async (req, res, next) => {
-    const result = await authServices.userLogin(req.body);
-    sendResponse(res, {
-        success: true,
-        statusCode: httpStatus.OK,
-        message: "User Logged in successfully",
-        data: result
-
-    })
-})
-
-
-
-
-export const authController = {
- userRegistration,
- userLogin
+ loginUser = this.catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthService.loginUser(req.body);
+  this.sendResponse(res, {
+   success: true,
+   statusCode: httpStatus.OK,
+   message: "User Logged in successfully",
+   data: result,
+  });
+ });
 }
+
+export const AuthController = new Controller();
