@@ -25,29 +25,4 @@ class Controller extends BaseController {
  });
 }
 
-// const userRegistration = catchAsync(async (req, res, next) => {
-//  const result = await authServices.userRegistrationIntoDB(req.body);
-//  sendResponse(res, {
-//   success: true,
-//   statusCode: httpStatus.CREATED,
-//   message: "User Registered successfully",
-//   data: result,
-//  });
-// });
-
-// const userLogin = catchAsync(async (req, res, next) => {
-//  const result = await authServices.userLogin(req.body);
-//  sendResponse(res, {
-//   success: true,
-//   statusCode: httpStatus.OK,
-//   message: "User Logged in successfully",
-//   data: result,
-//  });
-// });
-
-// export const authController = {
-//  userRegistration,
-//  userLogin,
-// };
-
 export const AuthController = new Controller();
