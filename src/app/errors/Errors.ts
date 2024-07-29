@@ -1,7 +1,8 @@
 import { ZodError } from "zod";
 import { IErrorSources } from "../interface/Error";
 import { config } from "../config";
-import { PrismaClientKnownRequestError, PrismaClientValidationError } from "@prisma/client/runtime/library";
+import { Prisma } from "@prisma/client";
+
 
 class ErrorHandlers {
     /* zod error */
@@ -22,7 +23,7 @@ class ErrorHandlers {
     }
 
     /* Prisma validation error */
-    handleValidationError(error: PrismaClientValidationError) {
+    handleValidationError(error: Prisma.PrismaClientValidationError) {
         const errorSources: IErrorSources[] = [
             {
                 path: '',
@@ -40,7 +41,7 @@ class ErrorHandlers {
     }
 
     /* Prisma duplicate error */
-    handleDuplicateError(error: PrismaClientKnownRequestError) {
+    handleDuplicateError(error: Prisma.PrismaClientKnownRequestError) {
         if (error.code !== 'P2002') {
             throw error;
         }
@@ -62,7 +63,7 @@ class ErrorHandlers {
     }
 
     /* Prisma cast error */
-    handleCastError(error: PrismaClientKnownRequestError) {
+    handleCastError(error: Prisma.PrismaClientKnownRequestError) {
         if (error.code !== 'P2003') {
             throw error;
         }
