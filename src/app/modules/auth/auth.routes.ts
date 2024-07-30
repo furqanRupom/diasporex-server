@@ -18,7 +18,6 @@ router.post(
  AuthController.loginUser,
 );
 
-/* TODO : will added auth guard */
-router.post('/forgot-password',AuthController.forgotPassword)
-router.post('/reset-password',verifyToken, AuthController.resetPassword) 
+router.post("/forgot-password", AuthController.forgotPassword);
+router.post("/reset-password", verifyToken, AuthController.resetPassword);
 export const authRoutes = router;
