@@ -1,19 +1,30 @@
 import { NextFunction, Request, Response } from "express";
 import ApiError from "./apiError";
+import httpStatus from "http-status";
 
 interface CustomRequest extends Request {
  role?: string;
 }
 
-const validateAuthorization =
- (allowedRoles: string[]) =>
- async (req: CustomRequest, res: Response, next: NextFunction) => {
-  const role = req.role;
-
-  if (role && !allowedRoles.includes(role)) {
-   throw new ApiError(403, "Forbidden access!");
+const validateAuthorization = (allowedRoles: string[]) => {
+ return async (req: CustomRequest, res: Response, next: NextFunction) => {
+  try {
+   const currentRole = req.role;
+   if (
+    allowedRoles.length &&
+    currentRole &&
+    !allowedRoles.includes(currentRole)
+   ) {
+    throw new ApiError(
+     httpStatus.FORBIDDEN,
+     "You are not allowed to perform this action",
+    );
+   }
+   next();
+  } catch (error) {
+   next(error);
   }
-  next();
  };
+};
 
 export default validateAuthorization;

@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Role" AS ENUM ('USER', 'AGENT');
+CREATE TYPE "Role" AS ENUM ('USER', 'AGENT', 'ADMIN');
 
 -- CreateEnum
 CREATE TYPE "Status" AS ENUM ('ACTIVE', 'BLOCKED');
@@ -16,6 +16,7 @@ CREATE TABLE "User" (
     "status" "Status" NOT NULL DEFAULT 'ACTIVE',
     "isDeleted" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
