@@ -21,6 +21,7 @@ model User {
   role        Role      @default(USER)
   phoneNumber String?
   address     String?
+  dateOfBirth  DateTime?
   status      Status    @default(ACTIVE)
   isDeleted   Boolean   @default(false)
   createdAt   DateTime  @default(now())
