@@ -22,7 +22,7 @@ const verifyToken = (req: CustomRequest, res: Response, next: NextFunction) => {
  if (token) {
   const isVerified: CustomJWTPayload | null = jwtHelpers.verifyToken(
    token,
-   process.env.JWT_TOKEN as Secret,
+      process.env.JWT_TOKEN as Secret,
   );
   if (!isVerified) {
    throw new ApiError(400, "Invalid token");
