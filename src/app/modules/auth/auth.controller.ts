@@ -29,13 +29,14 @@ class Controller extends BaseController {
         this.sendResponse(res, {
             success: true,
             statusCode: httpStatus.OK,
-            message: "Password reset successfully ",
+            message: "Check your Email ",
             data: result,
         });
     })
 
     resetPassword = this.catchAsync(async (req: Request, res: Response) => {
-        const result = await AuthService.resetPassword(req.body);
+        const token = req.headers.authorization || "";
+        const result = await AuthService.resetPassword(token,req.body);
         this.sendResponse(res, {
             success: true,
             statusCode: httpStatus.OK,

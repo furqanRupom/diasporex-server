@@ -5,6 +5,9 @@ import { jwtHelpers } from "../../helpers/jwtHelpers";
 import { config } from "../../config";
 import { JwtPayload } from "jsonwebtoken";
 import EmailSender from "../../mailer/EmailSender";
+import verifyToken from "../../middlewares/verifyToken";
+import ApiError from "../../middlewares/apiError";
+import httpStatus from "http-status";
 
 class Service {
     async registerUser(payload: User) {
@@ -75,7 +78,12 @@ class Service {
     }
 
 
-    async resetPassword(payload: { id: string, password: string }) {
+    async resetPassword(token:string,payload: { id: string, password: string }) {
+        const validToken = jwtHelpers.verifyToken(token, config.reset_pass_token as string)
+
+        if (!validToken) {
+            throw new ApiError(httpStatus.FORBIDDEN, 'Invalid token provided')
+        }
 
         const user = await prisma.user.findUniqueOrThrow({
             where: {
@@ -84,7 +92,7 @@ class Service {
             }
         })
 
-
+     
 
         const hashedPassword = await bcrypt.hash(payload.password, 12);
         const resetPassword = await prisma.user.update({
@@ -93,6 +101,12 @@ class Service {
             },
             data: {
                 password: hashedPassword
+            },
+            select:{
+                id:true,
+                name:true,
+                email:true,
+                role:true
             }
         })
         return resetPassword;
